@@ -1,5 +1,6 @@
 Read Me
 =======
+![You Can Play With Bugs Better Lyrics Viewer](Program.PNG)
 ## 1. 사용법 How to Use
 [Chrome](https://www.google.com/intl/en/chrome/)을 설치합니다. *이미 설치되어 있으면 무시*   
 Install [Chrome](https://www.google.com/intl/en/chrome/). *Ignore if already installed*
