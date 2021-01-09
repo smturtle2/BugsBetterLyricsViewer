@@ -32,6 +32,9 @@ namespace BugsBetterLyricsViewer
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LyricsForm));
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.ListBtn = new System.Windows.Forms.Button();
+            this.btn_close = new System.Windows.Forms.Button();
+            this.SettingBtn = new System.Windows.Forms.Button();
             this.LyricsLabel1 = new System.Windows.Forms.Label();
             this.SongNameLabel = new System.Windows.Forms.Label();
             this.LyricsLabel2 = new System.Windows.Forms.Label();
@@ -39,10 +42,10 @@ namespace BugsBetterLyricsViewer
             this.PlayPauseBtn = new System.Windows.Forms.Button();
             this.NextBtn = new System.Windows.Forms.Button();
             this.PrevBtn = new System.Windows.Forms.Button();
-            this.btn_close = new System.Windows.Forms.Button();
             this.GetLyrics = new System.Windows.Forms.Timer(this.components);
             this.GetOtherInfo = new System.Windows.Forms.Timer(this.components);
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.SettingLoad = new System.Windows.Forms.Timer(this.components);
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
@@ -50,6 +53,9 @@ namespace BugsBetterLyricsViewer
             // pnlTop
             // 
             this.pnlTop.BackColor = System.Drawing.Color.Transparent;
+            this.pnlTop.Controls.Add(this.ListBtn);
+            this.pnlTop.Controls.Add(this.btn_close);
+            this.pnlTop.Controls.Add(this.SettingBtn);
             this.pnlTop.Controls.Add(this.LyricsLabel1);
             this.pnlTop.Controls.Add(this.SongNameLabel);
             this.pnlTop.Controls.Add(this.LyricsLabel2);
@@ -57,11 +63,64 @@ namespace BugsBetterLyricsViewer
             this.pnlTop.Controls.Add(this.PlayPauseBtn);
             this.pnlTop.Controls.Add(this.NextBtn);
             this.pnlTop.Controls.Add(this.PrevBtn);
-            this.pnlTop.Controls.Add(this.btn_close);
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(800, 120);
+            this.pnlTop.Size = new System.Drawing.Size(800, 108);
             this.pnlTop.TabIndex = 0;
+            // 
+            // ListBtn
+            // 
+            this.ListBtn.BackColor = System.Drawing.Color.Transparent;
+            this.ListBtn.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.ListBtn.FlatAppearance.BorderSize = 0;
+            this.ListBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.ListBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.ListBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ListBtn.Font = new System.Drawing.Font("휴먼편지체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ListBtn.ForeColor = System.Drawing.Color.Transparent;
+            this.ListBtn.Image = global::BugsBetterLyricsViewer.Properties.Resources.icons8_add_list_16;
+            this.ListBtn.Location = new System.Drawing.Point(41, 88);
+            this.ListBtn.Name = "ListBtn";
+            this.ListBtn.Size = new System.Drawing.Size(23, 23);
+            this.ListBtn.TabIndex = 9;
+            this.ListBtn.UseVisualStyleBackColor = false;
+            this.ListBtn.Click += new System.EventHandler(this.ListBtn_Click);
+            // 
+            // btn_close
+            // 
+            this.btn_close.BackColor = System.Drawing.Color.Transparent;
+            this.btn_close.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btn_close.FlatAppearance.BorderSize = 0;
+            this.btn_close.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_close.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_close.Font = new System.Drawing.Font("휴먼편지체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_close.ForeColor = System.Drawing.Color.Transparent;
+            this.btn_close.Image = global::BugsBetterLyricsViewer.Properties.Resources.icons8_close_window_24;
+            this.btn_close.Location = new System.Drawing.Point(771, 6);
+            this.btn_close.Name = "btn_close";
+            this.btn_close.Size = new System.Drawing.Size(23, 23);
+            this.btn_close.TabIndex = 0;
+            this.btn_close.UseVisualStyleBackColor = false;
+            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
+            // 
+            // SettingBtn
+            // 
+            this.SettingBtn.BackColor = System.Drawing.Color.Transparent;
+            this.SettingBtn.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.SettingBtn.FlatAppearance.BorderSize = 0;
+            this.SettingBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.SettingBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.SettingBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SettingBtn.Font = new System.Drawing.Font("휴먼편지체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.SettingBtn.ForeColor = System.Drawing.Color.Transparent;
+            this.SettingBtn.Image = global::BugsBetterLyricsViewer.Properties.Resources.icons8_settings_16;
+            this.SettingBtn.Location = new System.Drawing.Point(12, 88);
+            this.SettingBtn.Name = "SettingBtn";
+            this.SettingBtn.Size = new System.Drawing.Size(23, 23);
+            this.SettingBtn.TabIndex = 8;
+            this.SettingBtn.UseVisualStyleBackColor = false;
+            this.SettingBtn.Click += new System.EventHandler(this.SettingBtn_Click);
             // 
             // LyricsLabel1
             // 
@@ -219,40 +278,25 @@ namespace BugsBetterLyricsViewer
             this.PrevBtn.UseVisualStyleBackColor = false;
             this.PrevBtn.Click += new System.EventHandler(this.PrevBtn_Click);
             // 
-            // btn_close
-            // 
-            this.btn_close.BackColor = System.Drawing.Color.Transparent;
-            this.btn_close.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btn_close.FlatAppearance.BorderSize = 0;
-            this.btn_close.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_close.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btn_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_close.Font = new System.Drawing.Font("휴먼편지체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_close.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn_close.Location = new System.Drawing.Point(774, 3);
-            this.btn_close.Name = "btn_close";
-            this.btn_close.Size = new System.Drawing.Size(23, 23);
-            this.btn_close.TabIndex = 0;
-            this.btn_close.Text = "X";
-            this.btn_close.UseVisualStyleBackColor = false;
-            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
-            // 
             // GetLyrics
             // 
-            this.GetLyrics.Enabled = true;
-            this.GetLyrics.Interval = 10;
             this.GetLyrics.Tick += new System.EventHandler(this.GetLyrics_Tick);
             // 
             // GetOtherInfo
             // 
-            this.GetOtherInfo.Enabled = true;
+            this.GetOtherInfo.Interval = 500;
             this.GetOtherInfo.Tick += new System.EventHandler(this.GetOtherInfo_Tick);
+            // 
+            // SettingLoad
+            // 
+            this.SettingLoad.Interval = 500;
+            this.SettingLoad.Tick += new System.EventHandler(this.SettingLoad_Tick);
             // 
             // LyricsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.BackgroundImage = global::BugsBetterLyricsViewer.Properties.Resources.TransparentBackground;
             this.ClientSize = new System.Drawing.Size(800, 120);
             this.Controls.Add(this.pnlTop);
@@ -263,6 +307,7 @@ namespace BugsBetterLyricsViewer
             this.Text = "벅스 더 나은 가사 뷰어";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Lime;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LyricsForm_FormClosed);
             this.Shown += new System.EventHandler(this.LyricsForm_Shown);
             this.pnlTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
@@ -284,6 +329,9 @@ namespace BugsBetterLyricsViewer
         private System.Windows.Forms.Timer GetOtherInfo;
         private System.Windows.Forms.BindingSource bindingSource1;
         private ColorSlider.ColorSlider TransparentSlider;
+        private System.Windows.Forms.Button SettingBtn;
+        private System.Windows.Forms.Timer SettingLoad;
+        private System.Windows.Forms.Button ListBtn;
     }
 }
 

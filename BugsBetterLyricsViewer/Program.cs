@@ -15,6 +15,7 @@ namespace BugsBetterLyricsViewer
             Application.SetCompatibleTextRenderingDefault(false);
             LyricsForm lyricsForm = new LyricsForm();
             LoginForm loginForm = new LoginForm(lyricsForm);
+            //Application.Run(new SettingForm());
             Application.Run(loginForm);
             try
             {

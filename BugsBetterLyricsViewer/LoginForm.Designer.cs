@@ -36,6 +36,7 @@ namespace BugsBetterLyricsViewer
             this.PWlabel = new System.Windows.Forms.Label();
             this.btn_login = new System.Windows.Forms.Button();
             this.BugsIcon = new System.Windows.Forms.PictureBox();
+            this.AutoLoginBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.BugsIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,11 +97,22 @@ namespace BugsBetterLyricsViewer
             this.BugsIcon.TabIndex = 5;
             this.BugsIcon.TabStop = false;
             // 
+            // AutoLoginBox
+            // 
+            this.AutoLoginBox.AutoSize = true;
+            this.AutoLoginBox.Location = new System.Drawing.Point(123, 219);
+            this.AutoLoginBox.Name = "AutoLoginBox";
+            this.AutoLoginBox.Size = new System.Drawing.Size(88, 16);
+            this.AutoLoginBox.TabIndex = 6;
+            this.AutoLoginBox.Text = "자동 로그인";
+            this.AutoLoginBox.UseVisualStyleBackColor = true;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(306, 260);
+            this.Controls.Add(this.AutoLoginBox);
             this.Controls.Add(this.btn_login);
             this.Controls.Add(this.PWlabel);
             this.Controls.Add(this.IDlabel);
@@ -115,6 +127,7 @@ namespace BugsBetterLyricsViewer
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "벅스 로그인";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LoginForm_FormClosed);
+            this.Shown += new System.EventHandler(this.LoginForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.BugsIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -129,5 +142,6 @@ namespace BugsBetterLyricsViewer
         private System.Windows.Forms.Label PWlabel;
         private System.Windows.Forms.Button btn_login;
         private System.Windows.Forms.PictureBox BugsIcon;
+        private System.Windows.Forms.CheckBox AutoLoginBox;
     }
 }

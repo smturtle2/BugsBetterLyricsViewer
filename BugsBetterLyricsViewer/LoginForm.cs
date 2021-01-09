@@ -8,19 +8,14 @@ namespace BugsBetterLyricsViewer
     {
         bool Logined = false;
         LyricsForm lyricsForm;
-
-        
+        IniFile ini;
         public LoginForm(LyricsForm lyricsForm)
         {
             InitializeComponent();
             this.lyricsForm = lyricsForm;
-
-            FileStream fs;
-            fs = new FileStream("Info.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            StreamReader sr = new StreamReader(fs);
-            IDbox.Text = sr.ReadLine();
-            PWbox.Text = sr.ReadLine();
-            sr.Close();
+            ini = new IniFile("Setting.ini");
+            IDbox.Text = ini.Read("Login", "ID");
+            PWbox.Text = ini.Read("Login", "PW");
         }
 
         private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -43,12 +38,12 @@ namespace BugsBetterLyricsViewer
 
         void login()
         {
-            FileStream fs;
-            fs = new FileStream("Info.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            StreamWriter sw = new StreamWriter(fs);
-            sw.WriteLine(IDbox.Text);
-            sw.WriteLine(PWbox.Text);
-            sw.Close();
+            ini.Write("Login", "ID", IDbox.Text);
+            ini.Write("Login", "PW", PWbox.Text);
+            if(AutoLoginBox.Checked == true)
+            {
+                ini.Write("Login", "Auto", "True");
+            }
             Logined = true;
             Close();
         }
@@ -56,6 +51,14 @@ namespace BugsBetterLyricsViewer
         private void PWbox_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == Keys.Enter)
+            {
+                login();
+            }
+        }
+
+        private void LoginForm_Shown(object sender, EventArgs e)
+        {
+            if (ini.Read("Login", "Auto").Equals("True"))
             {
                 login();
             }
