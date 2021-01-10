@@ -38,7 +38,7 @@ namespace BugsBetterLyricsViewer
             // 
             // BackgroundColor
             // 
-            this.BackgroundColor.Color = System.Drawing.SystemColors.ActiveCaption;
+            this.BackgroundColor.Color = System.Drawing.SystemColors.ActiveBorder;
             // 
             // BackColorBtn
             // 
@@ -76,6 +76,7 @@ namespace BugsBetterLyricsViewer
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BackColorBtn);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;

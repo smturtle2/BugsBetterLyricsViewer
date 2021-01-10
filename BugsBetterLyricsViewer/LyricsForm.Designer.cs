@@ -65,7 +65,7 @@ namespace BugsBetterLyricsViewer
             this.pnlTop.Controls.Add(this.PrevBtn);
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(800, 108);
+            this.pnlTop.Size = new System.Drawing.Size(800, 120);
             this.pnlTop.TabIndex = 0;
             // 
             // ListBtn
@@ -280,16 +280,17 @@ namespace BugsBetterLyricsViewer
             // 
             // GetLyrics
             // 
+            this.GetLyrics.Interval = 200;
             this.GetLyrics.Tick += new System.EventHandler(this.GetLyrics_Tick);
             // 
             // GetOtherInfo
             // 
-            this.GetOtherInfo.Interval = 500;
+            this.GetOtherInfo.Interval = 1000;
             this.GetOtherInfo.Tick += new System.EventHandler(this.GetOtherInfo_Tick);
             // 
             // SettingLoad
             // 
-            this.SettingLoad.Interval = 500;
+            this.SettingLoad.Interval = 300;
             this.SettingLoad.Tick += new System.EventHandler(this.SettingLoad_Tick);
             // 
             // LyricsForm
@@ -307,6 +308,7 @@ namespace BugsBetterLyricsViewer
             this.Text = "벅스 더 나은 가사 뷰어";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Lime;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LyricsForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LyricsForm_FormClosed);
             this.Shown += new System.EventHandler(this.LyricsForm_Shown);
             this.pnlTop.ResumeLayout(false);

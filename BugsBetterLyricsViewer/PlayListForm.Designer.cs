@@ -37,6 +37,7 @@ namespace BugsBetterLyricsViewer
             // 
             // PlayListBox
             // 
+            this.PlayListBox.CheckOnClick = true;
             this.PlayListBox.FormattingEnabled = true;
             this.PlayListBox.Location = new System.Drawing.Point(12, 12);
             this.PlayListBox.Name = "PlayListBox";
@@ -71,6 +72,7 @@ namespace BugsBetterLyricsViewer
             this.Controls.Add(this.AutoLoadBox);
             this.Controls.Add(this.CheckBtn);
             this.Controls.Add(this.PlayListBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;

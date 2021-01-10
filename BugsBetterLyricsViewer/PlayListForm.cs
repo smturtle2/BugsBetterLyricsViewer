@@ -21,6 +21,7 @@ namespace BugsBetterLyricsViewer
             this.lyricsForm = lyricsForm;
             ini = new IniFile("Setting.ini");
             this.New = New;
+            lyricsForm.ReloadList = false;
         }
         private void PlayListForm_Shown(object sender, EventArgs e)
         {
@@ -68,6 +69,7 @@ namespace BugsBetterLyricsViewer
         }
         void Check(string playList)
         {
+            lyricsForm.ReloadList = true;
             lyricsForm.PlayList = playList.Split(',');
 
             ini.Write("PlayList", "List", playList);

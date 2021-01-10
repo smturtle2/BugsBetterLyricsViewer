@@ -32,20 +32,16 @@ namespace BugsBetterLyricsViewer
         string Lyrics2;
 
         LyricsForm lyricsForm;
-
-        Thread GetSongNameThread;
-        Thread GetLyricsThread;
+        public bool ReloadList;
         public LyricsForm()
         {
             InitializeComponent();
             lyricsForm = this;
 
-            GetSongNameThread = new Thread(GetSongName);
-            GetLyricsThread = new Thread(GetTheLyrics);
-
             Song = SongNameLabel.Text;
             Lyrics1 = LyricsLabel1.Text;
             Lyrics2 = LyricsLabel2.Text;
+            PlayList = "".Split(',');
 
             ini = new IniFile("Setting.ini");
             if(ini.Read("Setting", "Opacity").Length > 0)
@@ -93,6 +89,7 @@ namespace BugsBetterLyricsViewer
 
         private void btn_close_Click(object sender, EventArgs e)
         {
+            Visible = false;
             Driver.Quit();
             Close();
         }
@@ -160,7 +157,11 @@ namespace BugsBetterLyricsViewer
                 element.Click();
 
                 //재생 목록 설정
-                new PlayListForm(lyricsForm, true).ShowDialog();
+                SetPlayList();
+                this.Invoke(new MethodInvoker(delegate ()
+                {
+                    new PlayListForm(lyricsForm, true).ShowDialog();
+                }));
                 SetPlayList();
 
                 Ready = true;
@@ -223,6 +224,8 @@ namespace BugsBetterLyricsViewer
             }
             else
             {
+                ini.Write("PlayList", "List", "");
+                ini.Write("PlayList", "AutoLoad", false.ToString());
                 throw new Exception("해당하는 앨범이 존재하지 않습니다.");
             }
 
@@ -236,67 +239,59 @@ namespace BugsBetterLyricsViewer
         }
         void SetPlayList()
         {
-            var element = Driver.FindElementByXPath("//*[@id='pgBasicPlayer']/div[3]/ul/li[1]/a");
-            element.Click();
-
-            element = Driver.FindElementByXPath("//*[@id='layerPlayList']/div[1]/div[1]/input");
-            element.Click();
-
-            element = Driver.FindElementByXPath("//*[@id='layerPlayList']/div[1]/div[2]/span[4]/button");
-            element.Click();
-
-            if (PlayList.Length > 0)
+            if (ReloadList)
             {
-                if (!PlayList[0].Equals(""))
-                    foreach (string name in PlayList)
-                    {
-                        Thread.Sleep(200);
-                        AddPlayList(name);
-                    }
+                var element = Driver.FindElementByXPath("//*[@id='pgBasicPlayer']/div[3]/ul/li[1]/a");
+                element.Click();
+
+                element = Driver.FindElementByXPath("//*[@id='layerPlayList']/div[1]/div[1]/input");
+                element.Click();
+
+                element = Driver.FindElementByXPath("//*[@id='layerPlayList']/div[1]/div[2]/span[4]/button");
+                element.Click();
+
+                if (PlayList.Length > 0)
+                {
+                    if (!PlayList[0].Equals(""))
+                        foreach (string name in PlayList)
+                        {
+                            Thread.Sleep(200);
+                            AddPlayList(name);
+                        }
+                }
+                ResetLyrics();
             }
         }
         private void GetLyrics_Tick(object sender, EventArgs e)
         {
-            if(Ready && !GetLyricsThread.IsAlive && !GetSongNameThread.IsAlive)
+            if(Ready)
             {
-                GetLyricsThread.Start();
+                try
+                {
+                    string rt = "";
+                    rt = ((IJavaScriptExecutor)Driver).ExecuteScript(
+                        "return (document.getElementById('rt') != null)").ToString();
+                    if (bool.Parse(rt))
+                    {
+                        var element = Driver.FindElementsByXPath("/html/body/div[1]/div[3]/div/div[5]/div[3]/div[2]/div/div[1]/div/div[2]/strong");
+                        var Text = element[0].Text;
+                        string[] Lyrics = Driver.FindElementByXPath("//*[@id='lyricsContent']").Text.Split('\n');
+                        for (int i = 0; i < Lyrics.Length - 1; i++)
+                        {
+                            if (Lyrics[i].Contains(Text))
+                            {
+                                Lyrics1 = Lyrics[i];
+                                Lyrics2 = Lyrics[i + 1];
+                                break;
+                            }
+                        }
+                    }
+                }
+                catch (Exception) { }
             }
             SongNameLabel.Text = Song;
             LyricsLabel1.Text = Lyrics1;
             LyricsLabel2.Text = Lyrics2;
-        }
-        void GetTheLyrics()
-        {
-            try
-            {
-                GetLyrics.Stop();
-                if (Driver.FindElementsByXPath("/html/body/div[1]/div[3]/div/div[5]/div[3]/div[2]/div/div[1]/div/div[2]/strong").Count > 0)
-                {
-                    string[] Lyrics = Driver.FindElementByXPath("//*[@id='lyricsContent']").Text.Split('\n');
-                    var element = Driver.FindElementByXPath("/html/body/div[1]/div[3]/div/div[5]/div[3]/div[2]/div/div[1]/div/div[2]/strong");
-                    for (int i = 0; i < Lyrics.Length - 1; i++)
-                    {
-                        if (Lyrics[i].Contains(element.Text))
-                        {
-                            Lyrics1 = Lyrics[i];
-                            Lyrics2 = Lyrics[i + 1];
-                            break;
-                        }
-                    }
-                }
-                GetLyrics.Start();
-            }
-            catch (Exception) { }
-        }
-        void GetSongName()
-        {
-            try
-            {
-                var e1 = Driver.FindElementByXPath("//*[@id='pgBasicPlayer']/div[2]/dl/dt/span[2]/a").Text;
-                var e2 = Driver.FindElementByXPath("//*[@id='newPlayerArtistName']").Text;
-                Song = e1 + " - " + e2;
-            }
-            catch (Exception) { }
         }
         private void PlayPauseBtn_Click(object sender, EventArgs e)
         {
@@ -309,8 +304,7 @@ namespace BugsBetterLyricsViewer
         }
         private void PrevBtn_Click(object sender, EventArgs e)
         {
-            LyricsLabel1.Text = "가사를 불러오는 중...";
-            LyricsLabel2.Text = "...";
+            ResetLyrics();
             try
             {
                 var element = Driver.FindElementByXPath("//*[@id='pgBasicPlayer']/div[2]/div[2]/div[1]/span[1]/button");
@@ -320,8 +314,7 @@ namespace BugsBetterLyricsViewer
         }
         private void NextBtn_Click(object sender, EventArgs e)
         {
-            LyricsLabel1.Text = "가사를 불러오는 중...";
-            LyricsLabel2.Text = "...";
+            ResetLyrics();
             try
             {
                 var element = Driver.FindElementByXPath("//*[@id='pgBasicPlayer']/div[2]/div[2]/div[1]/span[3]/button");
@@ -333,24 +326,28 @@ namespace BugsBetterLyricsViewer
         {
             if (Ready)
             {
-                try
+                string URL = "";
+                URL = ((IJavaScriptExecutor)Driver).ExecuteScript(
+                    "return document.URL").ToString();
+                if (URL.Equals("https://music.bugs.co.kr/newPlayer?autoplay=false"))
                 {
-                    var element = Driver.FindElementByXPath("//*[@id='pgBasicPlayer']/div[2]/div[2]/div[1]/span[2]/button");
-                    if (element.Text.Equals("재생"))
+                    try
                     {
-                        PlayPauseBtn.Text = " ▶";
+                        var element = Driver.FindElementByXPath("//*[@id='pgBasicPlayer']/div[2]/div[2]/div[1]/span[2]/button");
+                        if (element.Text.Equals("재생"))
+                        {
+                            PlayPauseBtn.Text = " ▶";
+                        }
+                        else
+                        {
+                            PlayPauseBtn.Text = "||";
+                        }
+                        var e1 = Driver.FindElementByXPath("//*[@id='pgBasicPlayer']/div[2]/dl/dt/span[2]/a").Text;
+                        var e2 = Driver.FindElementByXPath("//*[@id='newPlayerArtistName']").Text;
+                        Song = e1 + " - " + e2;
                     }
-                    else
-                    {
-                        PlayPauseBtn.Text = "||";
-                    }
-                    if (!GetSongNameThread.IsAlive && !GetLyricsThread.IsAlive)
-                    {
-                        GetSongNameThread.Start();
-                    }
-                    
+                    catch (Exception) { }
                 }
-                catch (Exception) { }
             }
         }
         private void TransparentSlider_Scroll(object sender, ScrollEventArgs e)
@@ -410,6 +407,16 @@ namespace BugsBetterLyricsViewer
                 Driver.Quit();
             }
             catch (Exception) { }
+        }
+        void ResetLyrics()
+        {
+            Lyrics1 = "가사를 불러오는 중...";
+            Lyrics2 = "...";
+        }
+
+        private void LyricsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Visible = false;
         }
     }
 }
